@@ -1,0 +1,3 @@
+exports.checkSignature = function (argument) {
+	
+}
