@@ -12,7 +12,7 @@ var app = express();
 app.use(function(req,res,next){
 	var query = url.parse(req.url).query;
 	var params = qs.parse(query);
-	if (req.method == 'GET'&&params.signature) {
+	if (req.method == 'GET'&& params.signature) {
 		if (!checkSignature(params,token)) {
 			return false;
 		}else{
