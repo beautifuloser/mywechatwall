@@ -5,6 +5,7 @@ var qs = require('qs');
 var url = require('url');
 var http = require('http');
 var xml2js = require('xml2js');
+var getUserInfo = require('./lib/user').getUserInfo;
 var checkSignature = require('./utils/checkSignatureUtil').checkSignature;
 
 var app = express();
@@ -40,12 +41,14 @@ app.use(function(req,res){
 				var parseString = xml2js.parseString;
 				parseString(postData,function(err,result){
 					if (!err) {
-						
-					};
+						getUserInfo(result.xml.FromUserName[0]).then(function(userInfo){
+							result.userInfo = userInfo;
+						});
+					}
 				});
 			});
-		};
-	};
+		}
+	}
 });
 
 var server = http.createServer(app);
