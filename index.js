@@ -5,6 +5,7 @@ var qs = require('qs');
 var url = require('url');
 var http = require('http');
 var xml2js = require('xml2js');
+var socketio = require('socket.io');
 var getUserInfo = require('./lib/user').getUserInfo;
 var checkSignature = require('./utils/checkSignatureUtil').checkSignature;
 
@@ -50,7 +51,37 @@ app.use(function(req,res){
 		}
 	}
 });
-
 var server = http.createServer(app);
+//socketio
+var io = socketio.listen(server);
+io.on('connection',function(){
+
+});
 server.listen(wxPort);
 console.log("the server is listen at port :"+wxPort);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
