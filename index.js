@@ -49,10 +49,14 @@ app.use(function(req,res){
 					if (!err) {
 						getUserInfo(result.xml.FromUserName[0]).then(function(userInfo){
 							result.userInfo = userInfo;
+							// console.log("result in index ====:"+JSON.stringify(result));
 							io.sockets.on('connection',function(socket){
-								
+								socket.emit('connected');
+								console.log('connected!');
 							});
 						});
+					}else{
+						console.log("err in index.js : "+err);
 					}
 				});
 			});
