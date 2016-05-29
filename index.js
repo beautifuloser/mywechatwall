@@ -26,6 +26,11 @@ app.use(function(req,res,next){
 });
 //设置静态文件路径
 app.use(express.static(__dirname + '/client'));
+
+
+var server = http.createServer(app);
+//socketio
+var io = socketio.listen(server);
 app.use(function(req,res){
 	if (req.method == 'GET') {
 		res.sendFile(__dirname + '/client/index.html');	
@@ -44,18 +49,15 @@ app.use(function(req,res){
 					if (!err) {
 						getUserInfo(result.xml.FromUserName[0]).then(function(userInfo){
 							result.userInfo = userInfo;
+							io.sockets.on('connection',function(socket){
+								
+							});
 						});
 					}
 				});
 			});
 		}
 	}
-});
-var server = http.createServer(app);
-//socketio
-var io = socketio.listen(server);
-io.on('connection',function(){
-
 });
 server.listen(wxPort);
 console.log("the server is listen at port :"+wxPort);
