@@ -6,6 +6,7 @@ var url = require('url');
 var http = require('http');
 var xml2js = require('xml2js');
 var socketio = require('socket.io');
+var EventEmitter = require('events').EventEmitter;
 var getUserInfo = require('./lib/user').getUserInfo;
 var checkSignature = require('./utils/checkSignatureUtil').checkSignature;
 
@@ -31,6 +32,8 @@ app.use(express.static(__dirname + '/client'));
 var server = http.createServer(app);
 //socketio
 var io = socketio.listen(server);
+//
+var messageEmiter = new EventEmitter();
 app.use(function(req,res){
 	if (req.method == 'GET') {
 		res.sendFile(__dirname + '/client/index.html');	
@@ -49,11 +52,9 @@ app.use(function(req,res){
 					if (!err) {
 						getUserInfo(result.xml.FromUserName[0]).then(function(userInfo){
 							result.userInfo = userInfo;
-							// console.log("result in index ====:"+JSON.stringify(result));
-							io.sockets.on('connection',function(socket){
-								socket.emit('connected');
-								console.log('connected!');
-							});
+							console.log("comming!");
+							messageEmiter.emit('newMessage',result);
+							res.end("");
 						});
 					}else{
 						console.log("err in index.js : "+err);
@@ -64,6 +65,13 @@ app.use(function(req,res){
 	}
 });
 server.listen(wxPort);
+// console.log("result in index ====:"+JSON.stringify(result));
+io.sockets.on('connection',function(socket){
+	socket.emit('connected');
+	messageEmiter.on('newMessage',function(result){
+		socket.emit('newMessage',result);
+	});
+});
 console.log("the server is listen at port :"+wxPort);
 
 

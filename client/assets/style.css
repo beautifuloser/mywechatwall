@@ -1,0 +1,62 @@
+
+.page-footer{
+  /*display: flex;*/
+  /*justify-content:center;*/
+  position: absolute;
+  bottom:0px;
+  text-align: center;
+}
+.page-footer-copyright{
+  verticalAlign:middle;
+  display:flex;
+  justify-content: center;
+}
+.site{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.site-content{
+  flex:1;
+}
+
+.footer{
+  bottom:0px;
+}
+
+
+.left-menu{
+  display: flex;
+  width: 40vh;
+  background-color: #8799a4;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink:0;
+  /*justify-content: space-around;
+   左边任务栏均分空间
+  */
+}
+.main-page{
+
+  display: flex;
+  min-height: 100vh;
+  background-color: white;
+  box-sizing: border-box;
+}
+.right-main{
+  flex-grow:1;
+}
+.right-main-message{
+  display: flex;
+  align-items: flex-start;
+  padding-left: 100px;
+  padding-top: 20px;
+}
+.right-main-message-icon{
+  margin-right: 1em;
+  width:150px;
+  height: 150px;
+}
+.right-main-message-body{
+  flex: 1;
+}
