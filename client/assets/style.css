@@ -36,8 +36,14 @@
    左边任务栏均分空间
   */
 }
+.left-menu-desc{
+  text-align: center;
+}
+.left-menu-wechat-icon{
+  text-align: center;
+  width: 35vh;
+}
 .main-page{
-
   display: flex;
   min-height: 100vh;
   background-color: white;
@@ -54,8 +60,8 @@
 }
 .right-main-message-icon{
   margin-right: 1em;
-  width:150px;
-  height: 150px;
+  width:100px;
+  height: 100px;
 }
 .right-main-message-body{
   flex: 1;

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>微信墙</title>
     <style>
-         img{
+        /* img{
             width: 300px;
-        }
+        }*/
     </style>
     <link rel="stylesheet" type="text/css" href="/assets/style.css">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -15,8 +15,8 @@
     <div class="main-page">
             <div class="left-menu">
                 <h1 class="left-menu-title">微信墙</h1>
-                <div class="left-menu-wechat-icon">
-                    <img src="/assets/images/wechat-icon.jpg">
+                <div class="">
+                    <img class="left-menu-wechat-icon" src="/assets/images/wechat-icon.jpg">
                 </div>
                 <h2 class="left-menu-desc">关注我并发送消息就可以上墙啦</h2>
             </div>
@@ -30,8 +30,8 @@
                             <h1>{{message.user.nickname}}说:</h1>
                             <h2 ng-if="message.xml.MsgType[0]=='text'" class="right-main-message-body">&nbsp;&nbsp;{{message.xml.Content[0]}}</h2>
                             <!-- <img ng-if="message.xml.MsgType[0]=='image'" ng-src="{{message.xml.PicUrl[0]}}?wx_fmt=png"> -->
-                            <div ng-bind-html-unsafe="showImage(message.xml.PicUrl[0])">
-
+                            <!-- <div ng-bind-html-unsafe="true"> -->
+                            <div data-ng-bind-html="message.xml.imageHtml"></div>
                             </div>
                         </div>  
                     </div>
@@ -44,13 +44,16 @@
 
     var messageList =[];
     angular.module('myApp',[])
-            .controller('wxWallController',function($scope){
+            .controller('wxWallController',function($scope,$sce){
             	var messages = []; 
             	var socket = io.connect('/');
             	socket.on('connected',function(){
             		console.log("连接成功");
             	});
             	socket.on('newMessage',function(message){
+                    if (message.xml.MsgType[0] == 'image') {
+                        message.xml.imageHtml = $sce.trustAsHtml(showImage(message.xml.PicUrl[0]));
+                    }
             		messageList.unshift(message)
             		$scope.$apply(function() {
                			$scope.messages = messageList;
@@ -60,7 +63,7 @@
     function showImage(url) {
         var frameid = 'frameimg' + Math.random();
         window.img = '<img id="img" style="width:50%" src=\'' + url + '?' + Math.random() + '\' /><script>window.onload = function() { parent.document.getElementById(\'' + frameid + '\').height = document.getElementById(\'img\').height+\'px\'; }<' + '/script>';
-        return ('<iframe id="'+frameid+'" src="javascript:parent.img;" frameBorder="0" scrolling="no" width="60%"></iframe>');
+        return ('<iframe id="'+frameid+'" src="javascript:parent.img;" frameBorder="0" scrolling="no" width="300%"></iframe>');
     }
 </script>
 

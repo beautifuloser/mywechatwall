@@ -50,7 +50,8 @@ app.use(function(req,res){
 				var parseString = xml2js.parseString;
 				parseString(postData,function(err,result){
 					if (!err) {
-						getUserInfo(result.xml.FromUserName[0]).then(function(userInfo){
+						getUserInfo(result.xml.FromUserName[0])
+						.then(function(userInfo){
 							result.userInfo = userInfo;
 							console.log("comming!");
 							messageEmiter.emit('newMessage',result);
@@ -65,7 +66,6 @@ app.use(function(req,res){
 	}
 });
 server.listen(wxPort);
-// console.log("result in index ====:"+JSON.stringify(result));
 io.sockets.on('connection',function(socket){
 	socket.emit('connected');
 	messageEmiter.on('newMessage',function(result){
